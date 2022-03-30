@@ -1,0 +1,78 @@
+@import "fonts";
+@import "reset";
+@import "normalize";
+@import "variables";
+@import "mixins";
+
+body {
+  //margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html { //уменьшение размера текста, в зависимости от ширины экрана
+
+  line-height: $mainLineHeight;
+  font-size: $mainFontSize;
+  color: $mainFontColor;
+  height: 100%;
+
+  @media screen and (max-width: $maxDesktopWidth) {
+
+    font-size: $mainFontSize;
+  }
+  @media screen and (max-width: $desktopWidth) {
+
+    font-size: $mainFontSize - 1px;
+  }
+  @media screen and (max-width: $tableWidth) {
+
+    font-size: $mainFontSize - 2px;
+  }
+  @media screen and (max-width: $phoneWidth) {
+
+    font-size: $mainFontSize - 3px;
+  }
+}
+
+body {
+  font-size: $mainFontSize;
+  font-family: $Quicksand;
+}
+//.wrapper {
+//  display: flex;
+//  flex-direction: column;
+//  margin: 0 auto;
+//  min-height: 100vh;
+//}
+//
+//.content-wrapper {
+//  display: flex;
+//  flex-direction: column;
+//  min-height: 100vh;
+//}
+
+.container {
+  width: 100%;
+  flex: 0 0 auto;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 auto; //временный параметр
+  max-width: $maxDesktopWidth;
+  //меняет размеры основного экрана контента
+  @media screen and (max-width: $desktopWidth) {
+    max-width: $smDesktopWidth;
+  }
+  @media screen and (max-width: $smDesktopWidth) {
+    max-width: $tableWidth;
+  }
+  @media screen and (max-width: $tableWidth) {
+    max-width: $phoneWidth;
+  }
+  @media screen and (max-width: $phoneWidth) {
+    max-width: $smPhoneWidth;
+  }
+}

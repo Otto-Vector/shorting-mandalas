@@ -1,0 +1,77 @@
+//@import "_fonts.scss";
+//@import "reset";
+//@import "normalize";
+//@import "_variables.scss";
+//@import "_mixins.scss";
+
+// для плавной прокрутки
+html {
+  scroll-behavior: smooth;
+}
+
+html { //уменьшение размера текста, в зависимости от ширины экрана
+
+  line-height: $mainLineHeight;
+  font-size: $mainFontSize;
+  color: $mainFontColor;
+  height: 100%;
+
+  @media screen and (max-width: $maxDesktopWidth) {
+
+    font-size: $mainFontSize;
+  }
+  @media screen and (max-width: $desktopWidth) {
+
+    font-size: $mainFontSize - 1px;
+  }
+  @media screen and (max-width: $tableWidth) {
+
+    font-size: $mainFontSize - 2px;
+  }
+  @media screen and (max-width: $phoneWidth) {
+
+    font-size: $mainFontSize - 3px;
+  }
+}
+
+body {
+  font-size: $mainFontSize;
+  font-family: $Quicksand;
+  background: linear-gradient(90deg, #F1F5D0 0%, #0d71f7 100%);
+
+
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  flex: 0 0 auto;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 auto; //временный параметр
+  max-width: $maxDesktopWidth;
+  //меняет размеры основного экрана контента
+  @media screen and (max-width: $desktopWidth) {
+    max-width: $smDesktopWidth;
+  }
+  @media screen and (max-width: $smDesktopWidth) {
+    max-width: $tableWidth;
+  }
+  @media screen and (max-width: $tableWidth) {
+    max-width: $phoneWidth;
+  }
+  @media screen and (max-width: $phoneWidth) {
+    max-width: $smPhoneWidth;
+  }
+}
