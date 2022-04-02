@@ -2,15 +2,15 @@
 export const toOneFibonacciDigit = ( num: number ): number => num % 9 || 9
 
 
-// функция возвращает обработанную строку без пробелов либо обработанную тестовую строку
+// функция возвращает обработанную строку без пробелов либо обработанную correctOutput строку
 export const modificationToNormal = (
-    stringFromUserInput: string, // stringFromUserInput - на обработку
-    stringByDefault?: string, // stringByDefault - на замену
+    fromUserInput: string, // fromUserInput - на обработку
+    correctOutput?: string, // correctOutput - на замену
 ): string | '0123456789' => {
-    stringByDefault||='0123456789'
-    let modified = stringFromUserInput.replace( /[^a-zа-яё\d]/ig, '' )
+    correctOutput||='0123456789'
+    let modified = fromUserInput.replace( /[^a-zа-яё\d]/ig, '' )
     return +modified === 0 || !modified // проверка на ноль и на пустую стоку
-        ? modificationToNormal(stringByDefault) // рекурсим с дефолтной строкой
+        ? modificationToNormal(correctOutput) // рекурсим с дефолтной строкой
         : modified // иначе просто возвращаем
 }
 
