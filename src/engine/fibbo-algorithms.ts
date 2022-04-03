@@ -7,10 +7,10 @@ export const modificationToNormal = (
     fromUserInput: string, // fromUserInput - на обработку
     correctOutput?: string, // correctOutput - на замену
 ): string | '0123456789' => {
-    correctOutput||='0123456789'
+    correctOutput ||= '0123456789'
     let modified = fromUserInput.replace( /[^a-zа-яё\d]/ig, '' )
-    return +modified === 0 || !modified // проверка на ноль и на пустую стоку
-        ? modificationToNormal(correctOutput) // рекурсим с дефолтной строкой
+    return +modified === 0 // проверка на ноль и на пустую стоку
+        ? modificationToNormal( correctOutput ) // рекурсим с дефолтной строкой
         : modified // иначе просто возвращаем
 }
 
