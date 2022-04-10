@@ -8,7 +8,7 @@ export const modificationToNormal = (
     correctOutput?: string, // correctOutput - на замену
 ): string | '0123456789' => {
     correctOutput ||= '0123456789'
-    let modified = fromUserInput.replace( /[^a-zа-яё\d]/ig, '' )
+    const modified = fromUserInput.replace( /[^a-zа-яё\d]/ig, '' )
     return +modified === 0 // проверка на ноль и на пустую стоку
         ? modificationToNormal( correctOutput ) // рекурсим с дефолтной строкой
         : modified // иначе просто возвращаем
@@ -28,3 +28,4 @@ export const wordToArrayOfNumbers = (
             // иначе возвращает позицию символа в соответствии с таблицей Урсулы
             simbolsOnPositions.indexOf( stringSymbol ) % 9 + 1,
         )
+

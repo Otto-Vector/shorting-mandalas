@@ -1,4 +1,4 @@
-//@import "_fonts.scss";
+@import "_fonts.scss";
 //@import "reset";
 //@import "normalize";
 @import "_variables.scss";
@@ -38,7 +38,7 @@ body {
   font-size: $mainFontSize;
   font-family: $Quicksand;
   background: linear-gradient(90deg, #F1F5D0 0%, #0d71f7 100%);
-
+  height: auto;
 
 }
 .wrapper {
