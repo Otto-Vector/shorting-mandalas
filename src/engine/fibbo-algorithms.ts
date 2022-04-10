@@ -30,19 +30,19 @@ export const wordToArrayOfNumbers = (
         )
 
 // сужение по Урсуле
-export const splitMinuses = ( minarray: number[] ): number[][] => {
+export const splitMinuses = ( minArray: number[] ): number[][] => {
 
     const minusOne = ( array: number[] ): number[] =>
         array
             .map( ( el, ind, arr ) => el + arr[ind + 1] )
             .filter( v => v )
 
-    let times = minarray.length - 1
-    let returnedArray: number[][] = [ minarray ]
+    let times = minArray.length - 1
+    let returnedArray: number[][] = [ minArray ]
 
     for (let i = 0; i < times; i++) {
         returnedArray.push(
-            minusOne( returnedArray[i] ).map( toOneFibonacciDigit )
+            minusOne( returnedArray[i] ).map( toOneFibonacciDigit ),
         )
     }
 

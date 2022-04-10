@@ -19,27 +19,23 @@ export const UiComponent: React.FC<OwnPropsType> = (
 
     const [ inputValue, setInputValue ] = useState( defaultValInput )
     const numArray = wordToArrayOfNumbers( inputValue )
-    const [ splitValue, setSplitValue ] = useState( splitMinuses(numArray) )
+    const [ splitValue, setSplitValue ] = useState( splitMinuses( numArray ) )
     const summary = numArray.reduce( ( a, b ) => a + b )
     const fiboSummary = toOneFibonacciDigit( summary )
 
-    const onSubmit = ( { title }: {title: string}): void => {
+    const onSubmit = ( { title }: { title: string } ): void => {
         const modTitle = modificationToNormal( title )
-        setInputValue( modTitle)
-        setSplitValue(splitMinuses(wordToArrayOfNumbers( modTitle)))
+        setInputValue( modTitle )
+        setSplitValue( splitMinuses( wordToArrayOfNumbers( modTitle ) ) )
     }
 
     return (
         <div className={ styles.component }>
-            <p>{ inputValue + ' = ' + numArray.join( '-' )+' = '+summary+' ('+fiboSummary+')'}</p>
+            <p>{ inputValue + ' = ' + numArray.join( '-' ) + ' = ' + summary + ' (' + fiboSummary + ')' }</p>
 
-            {/*<input type="text"*/}
-            {/*       className={ styles.input }*/}
-            {/*       value={ inputValue }*/}
-            {/*       // onChange={ ( e ) => setInputValue( modificationToNormal( e.target.value ) ) }*/}
-            {/*/>*/}
-            <InputForm onSubmit={onSubmit} />
-            {splitValue.map((val)=> <p>{val.join('')+' = '+toOneFibonacciDigit(val.reduce((a,b)=>a+b))+' ('+val.length+')'}</p>)}
+            <InputForm onSubmit={ onSubmit }/>
+            { splitValue.map( ( val ) =>
+                <p>{ val.join( '' ) + ' = ' + toOneFibonacciDigit( val.reduce( ( a, b ) => a + b ) ) + ' (' + val.length + ')' }</p> ) }
         </div>
     )
 }
