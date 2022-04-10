@@ -16,6 +16,7 @@ $btnNoFillBgColor: transparent;
 $btnNoFillBorderColor: #A0B4FF;
 
 .button {
+  @include flex-center();
   padding: rem(10);
   border-radius: 2px;
   border: 1px solid transparent;
@@ -24,7 +25,6 @@ $btnNoFillBorderColor: #A0B4FF;
   font-style: normal;
   font-weight: bold;
   font-size: rem(13);
-  line-height: rem(16.25);
 
   white-space: nowrap;
   user-select: none;

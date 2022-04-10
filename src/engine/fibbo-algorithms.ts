@@ -29,3 +29,24 @@ export const wordToArrayOfNumbers = (
             simbolsOnPositions.indexOf( stringSymbol ) % 9 + 1,
         )
 
+// сужение по Урсуле
+export const splitMinuses = ( minarray: number[] ): number[][] => {
+
+    const minusOne = ( array: number[] ): number[] =>
+        array
+            .map( ( el, ind, arr ) => el + arr[ind + 1] )
+            .filter( v => v )
+
+    let times = minarray.length - 1
+    let returnedArray: number[][] = [ minarray ]
+
+    for (let i = 0; i < times; i++) {
+        returnedArray.push(
+            minusOne( returnedArray[i] ).map( toOneFibonacciDigit )
+        )
+    }
+
+    return returnedArray
+
+}//возвращает сужаемый до нужного количества цифр двумерный массив
+
