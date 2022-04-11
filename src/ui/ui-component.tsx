@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import styles from './ui.module.scss'
 import {
     modificationToNormal,
-    splitMinuses,
     toOneFibonacciDigit,
     wordToArrayOfNumbers,
 } from '../engine/fibbo-algorithms'
 import { InputForm } from './input-form/input-form'
+import { SplitList } from './split-list/split-list'
 
 type OwnPropsType = {
     defaultValInput?: string
@@ -19,14 +19,12 @@ export const UiComponent: React.FC<OwnPropsType> = (
 
     const [ inputValue, setInputValue ] = useState( defaultValInput )
     const numArray = wordToArrayOfNumbers( inputValue )
-    const [ splitValue, setSplitValue ] = useState( splitMinuses( numArray ) )
     const summary = numArray.reduce( ( a, b ) => a + b )
     const fiboSummary = toOneFibonacciDigit( summary )
 
     const onSubmit = ( { title }: { title: string } ): void => {
         const modTitle = modificationToNormal( title )
         setInputValue( modTitle )
-        setSplitValue( splitMinuses( wordToArrayOfNumbers( modTitle ) ) )
     }
 
     return (
@@ -34,8 +32,8 @@ export const UiComponent: React.FC<OwnPropsType> = (
             <p>{ inputValue + ' = ' + numArray.join( '-' ) + ' = ' + summary + ' (' + fiboSummary + ')' }</p>
 
             <InputForm onSubmit={ onSubmit }/>
-            { splitValue.map( ( val ) =>
-                <p>{ val.join( '' ) + ' = ' + toOneFibonacciDigit( val.reduce( ( a, b ) => a + b ) ) + ' (' + val.length + ')' }</p> ) }
+            <SplitList label={ 'Обычное сужение' } inputValue={ numArray }/>
+            <SplitList label={ 'Обратное сужение' } inputValue={ numArray.slice().reverse() }/>
         </div>
     )
 }

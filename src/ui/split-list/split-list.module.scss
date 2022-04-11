@@ -1,0 +1,98 @@
+@import "src/styles/variables";
+@import "src/styles/mixins";
+
+$expansion-panel--standart-color : #8E96B7;
+$expansion-panel--active-color : #495274;
+$expansion-panel--transition-duration : .3s;
+$expansion-panel--text-color : #8D96BD;
+$expansion-panel--text-font : $Roboto;
+$borderTopColor          : #D8E3FE;
+
+.expansionPanel {
+  width: 50%;
+  margin: 0 auto;
+  max-height: rem(82);
+  border-bottom: 1px solid $borderTopColor;
+  transition: all $expansion-panel--transition-duration ease-in-out;
+  overflow: hidden;
+  text-align: left;
+
+  &Expand {
+    max-height: rem(700);
+    overflow: auto;
+
+    .expansionPanel {
+
+      &Indicator {
+        //transform: rotate(180deg);
+        transform: scaleY(-1);
+
+        svg path {
+          stroke: $expansion-panel--active-color;
+        }
+      }
+
+      &Header {
+        color: $expansion-panel--active-color;
+        text-shadow: 0 0 .7px $expansion-panel--active-color,
+                   0 0 .7px $expansion-panel--active-color,
+                   0 0 .7px $expansion-panel--active-color;
+      }
+    }
+  }
+
+  &Indicator {
+    //transform: rotate(0deg);
+    transform: scaleY(1);
+    transition: all $expansion-panel--transition-duration ease-in-out;
+    padding: 0 rem(25);
+    transform-origin: center center;
+
+    svg path {
+          stroke: $expansion-panel--standart-color;
+        }
+  }
+
+  &Header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    height: rem(82);
+    cursor: pointer;
+    font-family: $Quicksand;
+    font-style: normal;
+    font-weight: 500;
+    font-size: rem(15);
+    line-height: rem(30);
+    letter-spacing: .03em;
+
+    text-shadow: none;
+
+    transition: text-shadow $expansion-panel--transition-duration/2 ease-in-out;
+    color: $expansion-panel--standart-color;
+  }
+
+  &Content {
+    padding: rem(15);
+    padding-top: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+
+  }
+
+  &Text {
+    margin: 0 rem(20);
+    text-align: left;
+    font-family: $expansion-panel--text-font;
+    font-style: normal;
+    font-weight: normal;
+    font-size: rem(14);
+    line-height: rem(27);
+    letter-spacing: .03em;
+    color: $expansion-panel--text-color;
+    padding-bottom: rem(10);
+  }
+
+}
