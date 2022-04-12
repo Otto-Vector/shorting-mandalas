@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styles from './split-list.module.scss'
 import {
-    splitMinuses,
+    listLayersToOne,
     toOneFibonacciDigit,
 } from '../../engine/fibbo-algorithms'
 
@@ -17,7 +17,7 @@ export const SplitList: React.FC<OwnPropsType> = (
         inputValue,
     } ) => {
     const [ expand, setExpand ] = useState( false )
-    const splitValue = splitMinuses( inputValue )
+    const splitValue = listLayersToOne( inputValue )
 
     const fiboSumm = (val: number[]) => toOneFibonacciDigit( val.reduce( ( a, b ) => a + b ))
 

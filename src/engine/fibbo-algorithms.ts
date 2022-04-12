@@ -32,23 +32,25 @@ export const wordToArrayOfNumbers = (
 
 // сужение по Фибоначи (на один уровень вниз)
 const minusOneLevel = ( array: number[] ): number[] =>
-    array
-        .reduce( ( prev: number[], curr, idx, arr ) =>
+    array.reduce( ( prev: number[], curr, idx, arr ) =>
             idx < arr.length - 1 // до предпоследней позиции
                 ? [ ...prev, // репарсим состояние массива
                     curr + arr[idx + 1] ] // cкладываем первый индекс со вторым, второй с третьи и т.д.
                 : prev, // если дошли до предпоследней позиции, просто возвращаем номинал
-            [] ) // здесь задаём пустой массив prev
+        [] ) // здесь задаём пустой массив prev
         .map( toOneFibonacciDigit ) // преобразуем суммы в суммы по фибоначи
 
 
-// сужение по Урсуле (полная таблица)
+// сужение по Урсуле
 // возвращает сужаемый до нужного количества цифр двумерный массив
-export const splitMinuses = ( minArray: number[] ): number[][] =>
-    minArray.reduce( ( prev: number[][], curr, idx, arr ) =>
-        idx < arr.length - 1 // до предпоследней позиции
-            ? [ ...prev, minusOneLevel( prev[idx] ) ] // докидываем вложенный массив, высчитанный из предыдущего
-            : prev, // если дошли до предпоследней позиции, просто возвращаем номинал
+const listLayersToLevel = ( minArray: number[], level = 1 ): number[][] => {
+    level = level < 1 || level > minArray.length ? 1 : level // проверяем уровни на ненужные значения || 1
+    return minArray.reduce( ( prev: number[][], curr, idx, arr ) =>
+            idx < arr.length - level // до предпоследней позиции
+                ? [ ...prev, minusOneLevel( prev[idx] ) ] // докидываем вложенный массив, высчитанный из предыдущего
+                : prev, // если дошли до нужной позиции, просто возвращаем номинал
         [ minArray ] ) // здесь задаём первый вложенный массив для подсчёта остальных
+}
 
-
+// сужение по Урсуле (полная таблица)
+export const listLayersToOne = ( minArray: number[] ): number[][] => listLayersToLevel( minArray, 1 )
