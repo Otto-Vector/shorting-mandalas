@@ -44,7 +44,9 @@ const minusOneLevel = ( array: number[] ): number[] =>
 // сужение по Урсуле
 // возвращает сужаемый до нужного количества цифр двумерный массив
 const listLayersToLevel = ( minArray: number[], level = 1 ): number[][] => {
-    level = level < 1 || level > minArray.length ? 1 : level // проверяем уровни на ненужные значения || 1
+
+    level = level < 1 || level > minArray.length ? 1 : Math.ceil(level) // проверяем уровни на ненужные значения || 1
+
     return minArray.reduce( ( prev: number[][], curr, idx, arr ) =>
             idx < arr.length - level // до предпоследней позиции
                 ? [ ...prev, minusOneLevel( prev[idx] ) ] // докидываем вложенный массив, высчитанный из предыдущего
