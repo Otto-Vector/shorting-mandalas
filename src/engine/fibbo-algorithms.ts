@@ -1,6 +1,9 @@
 // функция сложения чисел к одному числу фибоначчи
 export const toOneFibonacciDigit = ( num: number ): number => num % 9 || 9
 
+// для вывода последнего массива из списка
+const lastElement = ( arr: number[][] ): number[] => arr[arr.length - 1]
+
 
 // функция возвращает обработанную строку без пробелов либо обработанную correctOutput строку
 export const modificationToNormal = (
@@ -41,18 +44,43 @@ const minusOneLevel = ( array: number[] ): number[] =>
         .map( toOneFibonacciDigit ) // преобразуем суммы в суммы по фибоначи
 
 
+// альтернативное расширение: [1,2,3] => [1,1+2,2,2+3,3]
+const anotherPlus = ( anotherPlusArray: number[], alength: number ): number[] => {
+    // первый символ добавляется автоматически
+    let bufferArray = [ anotherPlusArray[0] ]
+    // потом добавляем по 2 элемента с суммой
+    for (let i = 0; i < anotherPlusArray.length - 1; i++)
+        bufferArray.push(
+            toOneFibonacciDigit( anotherPlusArray[i] + anotherPlusArray[i + 1] ),
+            anotherPlusArray[i + 1]
+        )
+
+    return bufferArray.length >= alength ? bufferArray : anotherPlus( bufferArray, alength )
+} // массив расширяется на порядок (lenght*2-1)
+
+
 // сужение по Урсуле
 // возвращает сужаемый до нужного количества цифр двумерный массив
 const listLayersToLevel = ( minArray: number[], level = 1 ): number[][] => {
 
-    level = level < 1 || level > minArray.length ? 1 : Math.ceil(level) // проверяем уровни на ненужные значения || 1
+    level = level < 1 ? 1 : Math.ceil( level ) // проверяем уровни на ненужные значения
 
-    return minArray.reduce( ( prev: number[][], curr, idx, arr ) =>
+    // задаём массив на расширение, если нужно расширение
+    let bufferArray = level > minArray.length ? anotherPlus( minArray, level ) : minArray
+
+    return bufferArray.reduce( ( prev: number[][], curr, idx, arr ) =>
             idx < arr.length - level // до предпоследней позиции
                 ? [ ...prev, minusOneLevel( prev[idx] ) ] // докидываем вложенный массив, высчитанный из предыдущего
                 : prev, // если дошли до нужной позиции, просто возвращаем номинал
-        [ minArray ] ) // здесь задаём первый вложенный массив для подсчёта остальных
+        [ bufferArray ] ) // здесь задаём первый вложенный массив для подсчёта остальных
 }
 
 // сужение по Урсуле (полная таблица)
 export const listLayersToOne = ( minArray: number[] ): number[][] => listLayersToLevel( minArray, 1 )
+
+// пересчитываем массив до нужного количества элементов
+export const lastLayer = ( minArray: number[] ): number[] => lastElement( listLayersToOne( minArray ) )
+
+
+
+
