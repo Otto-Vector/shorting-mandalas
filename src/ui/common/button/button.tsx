@@ -4,22 +4,26 @@ import classes from './button.module.scss'
 type OwnProps = {
     disabled?: boolean,
     onClick?: () => void,
-    mode?: 'Orange' | 'Blue'| 'LightBlue' | 'Pink' | 'Gray' | 'White' | 'NoFill'
+    colorMode?: 'orange' | 'blue' | 'lightBlue' | 'pink' | 'gray' | 'white' | 'noFill'
     type?: 'button' | 'submit' | 'reset'
     title?: string
+    rounded?: boolean
 }
 
 export const Button: React.FC<OwnProps> = (
     {
         disabled, onClick, title,
-        mode = 'NoFill', type = 'button', children
+        colorMode = 'noFill', rounded,
+        type = 'button', children,
     } ) => {
 
-    return <button className={ classes.button + ' ' + classes['button' + mode] }
+    return <button className={
+        `${ classes.button } ${ classes['button_' + colorMode] } ${ rounded && classes.button_rounded }`
+    }
                    disabled={ disabled }
                    onClick={ onClick }
                    type={ type }
-                   title={title}
+                   title={ title }
     >{ // отображаем то что внутри тега button
         children
     }

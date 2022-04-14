@@ -35,7 +35,7 @@ export const InputForm: React.FC<OwnProps> = ( { onSubmit } ) => {
                         <div className={ styles.buttonsPanel }>
                             <Button type={ 'submit' }
                                     disabled={ submitting }
-                                    mode={ 'White' }
+                                    colorMode={ 'white' }
                                     title={ 'Clear results & New Search' }
                             >Done</Button>
                             <Button type={ 'reset' }
@@ -44,7 +44,7 @@ export const InputForm: React.FC<OwnProps> = ( { onSubmit } ) => {
                                         form.reset()
                                     } }
                                     title={ 'Restore all fields to default' }
-                                    mode={ 'White' }
+                                    colorMode={ 'white' }
                             ><MaterialIcon icon_name={ 'close' }/></Button>
                         </div>
                         { submitError && <span className={ styles.onError }>{ submitError }</span> }

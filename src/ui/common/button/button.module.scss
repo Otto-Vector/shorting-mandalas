@@ -24,7 +24,6 @@ $btnNoFillBorderColor: #A0B4FF;
   font-family: $Quicksand;
   font-style: normal;
   font-weight: bold;
-  font-size: rem(13);
 
   white-space: nowrap;
   user-select: none;
@@ -49,40 +48,44 @@ $btnNoFillBorderColor: #A0B4FF;
     border-color: black;
   }
 
-  &Orange {
+  &_orange {
     background-color: orange;
     color: black;
   }
 
-  &Blue {
+  &_blue {
     background-color: $btnBlueBgColor;
     color: $btnBlueFontColor;
   }
 
-  &Pink {
+  &_pink {
     background-color: $btnPingBgColor;
     color: $btnPinkFontColor;
   }
 
-  &LightBlue {
+  &_lightBlue {
     background-color: $btnLightBlueBgColor;
     color: $btnLightBlueFontColor;
   }
 
-  &Gray {
+  &_gray {
         background-color: $btnGrayBgColor;
     color: $btnGrayFontColor;
   }
 
-  &White {
+  &_white {
     background-color: $btnWhiteBgColor;
     color: $btnWhiteFontColor;
   }
 
-  &NoFill {
+  &_noFill {
     padding: rem(12) rem(15);
     background-color: $btnNoFillBgColor;
     color: $btnNoFillFontColor;
     border: 1px solid $btnNoFillBorderColor;
+  }
+
+  &_rounded {
+    border-radius: 50%;
   }
 }

@@ -9,6 +9,8 @@ $expansion-panel--text-font : $Roboto;
 $borderTopColor          : #D8E3FE;
 
 .expansionPanel {
+  font-size: inherit;
+  font-family: $Quicksand;
   width: 50%;
   margin: 0 auto;
   max-height: rem(82);
@@ -17,13 +19,13 @@ $borderTopColor          : #D8E3FE;
   overflow: hidden;
   text-align: left;
 
-  &Expand {
+  &_expand {
     max-height: rem(700);
     overflow: auto;
 
     .expansionPanel {
 
-      &Indicator {
+      &__indicator {
         //transform: rotate(180deg);
         transform: scaleY(-1);
 
@@ -32,17 +34,21 @@ $borderTopColor          : #D8E3FE;
         }
       }
 
-      &Header {
+      &__header {
         color: $expansion-panel--active-color;
         text-shadow: 0 0 .7px $expansion-panel--active-color,
                    0 0 .7px $expansion-panel--active-color,
                    0 0 .7px $expansion-panel--active-color;
       }
+      &__text {
+        transform: scaleY(1);
+      }
     }
   }
 
-  &Indicator {
+  &__indicator {
     //transform: rotate(0deg);
+    font-size: 220%;
     transform: scaleY(1);
     transition: all $expansion-panel--transition-duration ease-in-out;
     padding: 0 rem(25);
@@ -53,7 +59,7 @@ $borderTopColor          : #D8E3FE;
         }
   }
 
-  &Header {
+  &__header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -73,8 +79,8 @@ $borderTopColor          : #D8E3FE;
     color: $expansion-panel--standart-color;
   }
 
-  &Content {
-    padding: rem(15);
+  &__content {
+    padding: rem(10) rem(15);
     padding-top: 0;
     display: flex;
     flex-wrap: nowrap;
@@ -82,7 +88,8 @@ $borderTopColor          : #D8E3FE;
 
   }
 
-  &Text {
+  &__text {
+    transform: scaleY(0);
     margin: 0 rem(20);
     text-align: left;
     font-family: $expansion-panel--text-font;
@@ -93,6 +100,7 @@ $borderTopColor          : #D8E3FE;
     letter-spacing: .03em;
     color: $expansion-panel--text-color;
     padding-bottom: rem(10);
+    transition: transform $expansion-panel--transition-duration ease-in-out;
   }
 
 }

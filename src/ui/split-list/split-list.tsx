@@ -4,6 +4,8 @@ import {
     listLayersToOne,
     toOneFibonacciDigit,
 } from '../../engine/fibbo-algorithms'
+import { MaterialIcon } from '../common/material-icon/material-icon'
+import { Button } from '../common/button/button'
 
 
 type OwnPropsType = {
@@ -17,25 +19,38 @@ export const SplitList: React.FC<OwnPropsType> = (
         inputValue,
     } ) => {
     const [ expand, setExpand ] = useState( false )
+    const [ info, setInfo ] = useState( false )
     const splitValue = listLayersToOne( inputValue )
 
-    const fiboSumm = (val: number[]) => toOneFibonacciDigit( val.reduce( ( a, b ) => a + b ))
+    const fiboSumm = ( val: number[] ) => toOneFibonacciDigit( val.reduce( ( a, b ) => a + b ) )
+
+    type arrToString = ( arg: number[], arg2: boolean ) => string
+    type infoType = { size: arrToString, summ: arrToString }
+
+    const inform: infoType = {
+        size: ( v, b ) => info ? `(${ v.length }) ` : '',
+        summ: ( v, b ) => info ? ` = ${ fiboSumm( v ) }` : '',
+    }
 
     return (
         <div className={ styles.component }>
-            <div className={ `${ styles.expansionPanel } ${ expand && styles.expansionPanelExpand }` }>
-                <h4 className={ styles.expansionPanelHeader } onClick={ () => setExpand( !expand ) }>
-                    <span className={ styles.expansionPanelIndicator }>
-                        <svg width="18" height="11" viewBox="0 0 18 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 2L9 9L16 2" stroke="#8E96B7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+            <div className={ `${ styles.expansionPanel } ${ expand && styles.expansionPanel_expand }` }>
+                <h4 className={ styles.expansionPanel__header } onClick={ () => setExpand( !expand ) }>
+                    <span className={ styles.expansionPanel__indicator }>
+                       <MaterialIcon icon_name={ 'expand_more' }/>
                     </span>
                     { label }
+
                 </h4>
-                <div className={styles.expansionPanelContent}>
-                    { expand &&
-                     splitValue.map( ( val ) =>
-                        <p className={ styles.expansionPanelText }>{ `${val.join( '' )} = ${fiboSumm(val)} ( ${val.length} ) `}</p> )
+                <div className={ styles.expansionPanel__content }>
+                    { expand && <Button colorMode={'lightBlue'} onClick={ () => setInfo( !info ) }>Info</Button> }
+                    <div style={ { margin: '.5rem'} }/>
+                    {/*{ expand &&*/}
+                    {splitValue.map( ( val ) =>
+                        <p className={ styles.expansionPanel__text } key={ val.join( '' ) }>
+                            { `${ inform.size( val, info ) }${ val.join( '' ) }${ inform.summ( val, info ) }` }
+                        </p>,
+                    )
                     }
                 </div>
 
