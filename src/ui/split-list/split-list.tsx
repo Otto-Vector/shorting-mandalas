@@ -11,12 +11,14 @@ import { Button } from '../common/button/button'
 type OwnPropsType = {
     label: string
     inputValue: number[]
+    infoText?: string
 }
 
 export const SplitList: React.FC<OwnPropsType> = (
     {
         label,
         inputValue,
+        infoText= ''
     } ) => {
     const [ expand, setExpand ] = useState( false )
     const [ info, setInfo ] = useState( false )
@@ -25,11 +27,12 @@ export const SplitList: React.FC<OwnPropsType> = (
     const fiboSumm = ( val: number[] ) => toOneFibonacciDigit( val.reduce( ( a, b ) => a + b ) )
 
     type arrToString = ( arg: number[], arg2: boolean ) => string
-    type infoType = { size: arrToString, summ: arrToString }
+    type infoType = { size: arrToString, summ: arrToString, text: (s: string, b: boolean)=>string }
 
     const inform: infoType = {
-        size: ( v, b ) => info ? `(${ v.length }) ` : '',
-        summ: ( v, b ) => info ? ` = ${ fiboSumm( v ) }` : '',
+        size: ( v, b ) => b ? `(${ v.length }) ` : '',
+        summ: ( v, b ) => b ? ` = ${ fiboSumm( v ) }` : '',
+        text: ( s, b ) => b ? `  :  ${ s }` : '',
     }
 
     return (
@@ -39,18 +42,17 @@ export const SplitList: React.FC<OwnPropsType> = (
                     <span className={ styles.expansionPanel__indicator }>
                        <MaterialIcon icon_name={ 'expand_more' }/>
                     </span>
-                    { label }
-
+                    { label + inform.text(infoText,info)}
                 </h4>
                 <div className={ styles.expansionPanel__content }>
-                    { expand && <Button colorMode={'lightBlue'} onClick={ () => setInfo( !info ) }>Info</Button> }
-                    <div style={ { margin: '.5rem'} }/>
-                    {/*{ expand &&*/}
-                    {splitValue.map( ( val ) =>
-                        <p className={ styles.expansionPanel__text } key={ val.join( '' ) }>
-                            { `${ inform.size( val, info ) }${ val.join( '' ) }${ inform.summ( val, info ) }` }
-                        </p>,
-                    )
+                    { expand && <Button colorMode={ 'lightBlue' } onClick={ () => setInfo( !info ) }>Info</Button> }
+                    <div style={ { margin: '.5rem' } }/>
+                    {
+                        splitValue.map( ( val ) =>
+                            <p className={ styles.expansionPanel__text } key={ val.join( '' ) }>
+                                { `${ inform.size( val, info ) }${ val.join( '' ) }${ inform.summ( val, info ) }` }
+                            </p>,
+                        )
                     }
                 </div>
 

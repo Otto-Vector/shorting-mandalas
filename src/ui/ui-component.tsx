@@ -17,23 +17,26 @@ export const UiComponent: React.FC<OwnPropsType> = (
         defaultValInput = 'Благословение',
     } ) => {
 
-    const [ inputValue, setInputValue ] = useState( defaultValInput )
-    const numArray = wordToArrayOfNumbers( inputValue )
-    const summary = numArray.reduce( ( a, b ) => a + b )
-    const fiboSummary = toOneFibonacciDigit( summary )
-
+    const [ textStringValue, setInputValue ] = useState( defaultValInput )
+    const numArray = wordToArrayOfNumbers( textStringValue )
+    const summary =toOneFibonacciDigit( numArray.reduce( ( a, b ) => a + b ))
+    const reverseArray = numArray.slice().reverse()
     const onSubmit = ( { title }: { title: string } ): void => {
-        const modTitle = modificationToNormal( title )
-        setInputValue( modTitle )
+        setInputValue( modificationToNormal( title ) )
     }
 
     return (
         <div className={ styles.component }>
-            <p>{ inputValue + ' = ' + numArray.join( '-' ) + ' = ' + summary + ' (' + fiboSummary + ')' }</p>
+            <h2 className={styles.header}>{ textStringValue  }</h2>
 
             <InputForm onSubmit={ onSubmit }/>
-            <SplitList label={ 'Обычное сужение' } inputValue={ numArray }/>
-            <SplitList label={ 'Обратное сужение' } inputValue={ numArray.slice().reverse() }/>
+            <SplitList label={ 'Обычное (-->) сужение'} inputValue={ numArray } infoText={textStringValue}/>
+            <SplitList label={ 'Обратное (<--) сужение' } inputValue={ reverseArray } infoText={textStringValue}/>
+            <SplitList label={ '-->.<-- сужение' } inputValue={ [...numArray,...reverseArray] } infoText={textStringValue}/>
+            <SplitList label={ '<--.--> сужение' } inputValue={ [...reverseArray,...numArray] } infoText={textStringValue}/>
+            <SplitList label={ '-->S<-- сужение' } inputValue={ [...numArray,summary,...reverseArray] } infoText={textStringValue}/>
+            <SplitList label={ '<--S--> сужение' } inputValue={ [...reverseArray,summary,...numArray] } infoText={textStringValue}/>
+
         </div>
     )
 }

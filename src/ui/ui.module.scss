@@ -1,8 +1,11 @@
 .component {
     background-color: #61dafb;
+    padding: 2rem;
 }
-
-.input {
-    height: 50px;
-    width: 500px;
+.header {
+    width: 50%;
+    margin: 0 auto;
+    font-size: 300%;
+    font-weight: bold;
+    text-align: center;
 }
