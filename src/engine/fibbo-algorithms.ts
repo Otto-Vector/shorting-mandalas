@@ -4,6 +4,7 @@ export const toOneFibonacciDigit = ( num: number ): number => num % 9 || 9
 // для вывода последнего массива из списка
 const lastElement = ( arr: number[][] ): number[] => arr[arr.length - 1]
 
+
 // функция возвращает обработанную строку без пробелов либо обработанную correctOutput строку
 export const modificationToNormal = (
     fromUserInput: string, // fromUserInput - на обработку
@@ -11,34 +12,31 @@ export const modificationToNormal = (
 ): string | '0123456789' => {
     correctOutput ||= '0123456789'
     const modified = fromUserInput.replace( /[^a-zа-яё\d]/ig, '' )
-    return +modified === 0 // проверка на ноль и на пустую стоку
-        ? modificationToNormal( correctOutput ) // рекурсим с дефолтной строкой
-        : modified // иначе просто возвращаем
+    return +modified !== 0 ? modified // проверка на ноль и на пустую стоку
+        : modificationToNormal( correctOutput ) // рекурсим с дефолтной строкой
 }
 
 
 // функция перевода строки в массив чисел 1-9
 export const wordToArrayOfNumbers = (
-    words: string, // строка на вход
-    simbolsOnPositions: string | undefined // буквы на позициях для перевода соответствия их поизиций в число от 1 до 9
+    string: string, // строка на вход
+    charsOnPosition: string | undefined // буквы на позициях для перевода соответствия их поизиций в число от 1 до 9
         = 'abcdefghijklmnopqrstuvwxyz абвгдеёжзийклмнопрстуфхцчшщъыьэюя   ABCDEFGHIJKLMNOPQRSTUVWXYZ АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ',
 ): number[] =>
-    modificationToNormal( words ) // нормализуем строку для наших нужд
+    modificationToNormal( string ) // нормализуем строку для наших нужд
         .split( '' ) // перевод строки в массив
-        .map( stringSymbol =>   // пересборка в новый массив
-            +stringSymbol || // если символ число, то возвращает число
+        .map( charFromString =>   // пересборка в новый массив
+            +charFromString || // если символ число, то возвращает число (в т.ч. 0)
             // иначе возвращает позицию символа в соответствии с таблицей Урсулы
-            simbolsOnPositions.indexOf( stringSymbol ) % 9 + 1,
+            charsOnPosition.indexOf( charFromString ) % 9 + 1,
         )
 
 
 // сужение по Фибоначи (на один уровень вниз)
 const minusOneLevel = ( array: number[] ): number[] =>
     array.reduce( ( prev: number[], curr, idx, arr ) =>
-            idx < arr.length - 1 // до предпоследней позиции
-                ? [ ...prev, // репарсим состояние массива
-                    curr + arr[idx + 1] ] // cкладываем первый индекс со вторым, второй с третьи и т.д.
-                : prev, // если дошли до предпоследней позиции, просто возвращаем номинал
+            idx > arr.length - 2 ? prev // если дошли до предпоследней позиции, просто возвращаем номинал
+                : [ ...prev, curr + arr[idx + 1] ], // cкладываем первый индекс со вторым, второй с третьи и т.д.
         [] ) // здесь задаём пустой массив prev
         .map( toOneFibonacciDigit ) // преобразуем суммы в суммы по фибоначи
 
@@ -46,15 +44,16 @@ const minusOneLevel = ( array: number[] ): number[] =>
 // альтернативное расширение: [1,2,3] => [1,1+2,2,2+3,3]
 // массив расширяется на порядок (lenght*2-1)
 const plusOneLevel = ( anotherPlusArray: number[] ): number[] =>
-    anotherPlusArray.reduce( ( prev: number[], curr, ind ) =>
-        !ind ? [ curr ] // при нуле возвращаем первую
-            : [ ...prev, prev[prev.length - 1] + curr, curr ] // собираем массив
-        , [] ) // объявляем массив в curr
+    anotherPlusArray.reduce( ( prev: number[], curr, idx ) =>
+            !idx ? [ curr ] // при нуле возвращаем первую
+                : [ ...prev, prev[prev.length - 1] + curr, curr ] // собираем массив
+        , [] ) // объявляем prev как пустой массив
         .map( toOneFibonacciDigit ) // преобразуем суммы в суммы по фибоначи
+
 
 // массив расширяется пока не достигнет искомой++ длины
 const plusToLevel = ( anotherPlusArray: number[], alength: number ): number[] => {
-    let bufferArray = plusOneLevel(anotherPlusArray)
+    let bufferArray = plusOneLevel( anotherPlusArray )
     return bufferArray.length >= alength ? bufferArray : plusToLevel( bufferArray, alength )
 }
 
@@ -69,11 +68,11 @@ const listLayersToLevel = ( minArray: number[], level = 1 ): number[][] => {
     let bufferArray = level > minArray.length ? plusToLevel( minArray, level ) : minArray
 
     return bufferArray.reduce( ( prev: number[][], curr, idx, arr ) =>
-            idx < arr.length - level // до предпоследней позиции
-                ? [ ...prev, minusOneLevel( prev[idx] ) ] // докидываем вложенный массив, высчитанный из предыдущего
-                : prev, // если дошли до нужной позиции, просто возвращаем номинал
+            idx >= arr.length - level ? prev // если дошли до предпоследней позиции, просто возвращаем номинал
+                : [ ...prev, minusOneLevel( prev[idx] ) ], // докидываем вложенный массив, высчитанный из предыдущего
         [ bufferArray ] ) // здесь задаём первый вложенный массив для подсчёта остальных
 }
+
 
 // сужение по Урсуле (полная таблица)
 export const listLayersToOne = ( minArray: number[] ): number[][] => listLayersToLevel( minArray, 1 )
@@ -82,5 +81,5 @@ export const listLayersToOne = ( minArray: number[] ): number[][] => listLayersT
 export const lastLayer = ( minArray: number[] ): number[] => lastElement( listLayersToOne( minArray ) )
 
 // пересчитываем массив до нужного количества элементов
-export const toNumbersOfElement = (minArray: number[], level: number): number[] =>
-    lastElement( listLayersToLevel( minArray, level) )
+export const toNumbersOfElement = ( minArray: number[], level: number ): number[] =>
+    lastElement( listLayersToLevel( minArray, level ) )
